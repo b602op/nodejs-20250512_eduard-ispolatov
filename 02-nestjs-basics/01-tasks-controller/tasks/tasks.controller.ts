@@ -22,11 +22,7 @@ export class TasksController {
 
   @Get(":id")
   getTaskById(@Param("id") id: string) {
-    const task = this.tasksService.getTaskById(id);
-    if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
-    return task
+    return this.tasksService.getTaskById(id);
   }
 
   @Post()
@@ -36,11 +32,7 @@ export class TasksController {
 
   @Patch(":id")
   updateTask(@Param("id") id: string, @Body() task: Task) {
-    const updatedTask = this.tasksService.updateTask(id, task);
-    if (!updatedTask) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
-    return updatedTask;
+    return this.tasksService.updateTask(id, task);;
   }
 
   @Delete(":id")

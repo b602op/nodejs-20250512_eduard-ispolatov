@@ -28,7 +28,9 @@ export class TasksService {
     if (taskIndex === -1) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
+
     this.tasks[taskIndex] = { ...this.tasks[taskIndex], ...updatedTask };
+    
     return this.tasks[taskIndex];
   }
 
