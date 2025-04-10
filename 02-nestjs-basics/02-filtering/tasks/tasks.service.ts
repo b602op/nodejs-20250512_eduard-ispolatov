@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Task, TaskStatus } from "./task.model";
 
 @Injectable()
@@ -41,9 +41,14 @@ export class TasksService {
     page?: number,
     limit?: number,
   ): Task[] {
-    let filteredTasks = this.tasks;
     const currentPage = page || 1;
     const currentLimit = limit || 10;
+
+    if (currentPage <= 0 || currentLimit <= 0) {
+      throw new NotFoundException("Page and limit must be greater than 0");
+    }
+
+    let filteredTasks = this.tasks;
 
     if (status) {
       filteredTasks = filteredTasks.filter(task => task.status === status);

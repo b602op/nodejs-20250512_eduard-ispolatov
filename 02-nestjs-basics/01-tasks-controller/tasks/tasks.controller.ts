@@ -9,7 +9,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
-import { Task } from "./task.model";
+import { Task, TaskWithId } from "./task.model";
 
 @Controller("tasks")
 export class TasksController {
@@ -30,10 +30,8 @@ export class TasksController {
   }
 
   @Post()
-  createTask(@Body() task: Task) {
-    const date = new Date();
-
-    return this.tasksService.createTask({ id: date.toISOString(), ...task });
+  createTask(@Body() task: TaskWithId) {
+    return this.tasksService.createTask(task);
   }
 
   @Patch(":id")
@@ -47,14 +45,6 @@ export class TasksController {
 
   @Delete(":id")
   deleteTask(@Param("id") id: string) {
-    const currentTask = this.tasksService.getTaskById(id);
-
-    const deleted = this.tasksService.deleteTask(id);
-    
-    if (!deleted) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
-
-    return currentTask
+    return this.tasksService.deleteTask(id);
   }
 }

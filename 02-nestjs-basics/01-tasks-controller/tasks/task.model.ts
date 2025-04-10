@@ -10,3 +10,7 @@ export interface Task {
   description: string;
   status: TaskStatus;
 }
+
+export interface TaskWithId extends Task {
+  id: string;
+}
